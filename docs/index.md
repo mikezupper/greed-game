@@ -17,6 +17,7 @@
 
 ## Work and evidence
 
+- [Card-room UI redesign record](exec-plans/completed/ui-redesign.md)
 - [Full-game implementation record](exec-plans/completed/full-game.md)
 - [Public release plan](exec-plans/active/release.md)
 - [Scaffold execution record](exec-plans/completed/scaffold.md)
@@ -26,3 +27,4 @@
 - [Harness-engineering source](references/harness-engineering.md)
 - [Sabacc source reference](references/sabacc.md)
 - [Skill provenance](references/skills-provenance.json)
+- [Font provenance](references/fonts.md)

@@ -16,8 +16,9 @@ export interface Table {
   readonly notice: string;
   readonly match: Match;
 }
-export type Move = { readonly type: 'Roll' } | { readonly type: 'Keep'; readonly ids: readonly number[] }
-  | { readonly type: 'Bank' } | { readonly type: 'Next' } | { readonly type: 'Start' } | { readonly type: 'Rematch' }
+/** Roll and Bank may carry `keep`: commit that selection first, in the same transition. */
+export type Move = { readonly type: 'Roll'; readonly keep?: readonly number[] } | { readonly type: 'Keep'; readonly ids: readonly number[] }
+  | { readonly type: 'Bank'; readonly keep?: readonly number[] } | { readonly type: 'Next' } | { readonly type: 'Start' } | { readonly type: 'Rematch' }
   | { readonly type: 'Ready'; readonly ready: boolean } | { readonly type: 'Clock'; readonly enabled: boolean }
   | { readonly type: 'Leave' } | { readonly type: 'Retry' };
 export const ALL_DICE = [0, 1, 2, 3, 4, 5] as const;
@@ -37,6 +38,10 @@ export function applyMove(table: Table, player: string, move: Move): Result {
     ? { ok: true, table: newMatch(table.players.map(p => ({ ...p, score: 0 })), table.match.target) } : refuse('Finish this match first.');
   if (table.match.stage === 'lobby' || table.match.stage === 'finished') return refuse('Start a match from the lobby.');
   if (table.players[table.active]?.id !== player) return refuse('It is not your turn.');
+  if ((move.type === 'Roll' || move.type === 'Bank') && move.keep) {
+    const kept = applyMove(table, player, { type: 'Keep', ids: move.keep });
+    return kept.ok ? applyMove(kept.table, player, { type: move.type }) : kept;
+  }
   if (move.type === 'Roll') {
     if (table.players.length < 2) return refuse('Invite another player before rolling.');
     if (table.phase !== 'ready' && table.phase !== 'kept') return refuse('Keep scoring dice before rolling again.');

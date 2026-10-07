@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-10-07T21:41:51.888Z",
+  "measuredAt": "2026-10-07T22:28:49.788Z",
   "browser": "Chromium with software WebGL",
   "results": [
     {
@@ -11,12 +11,12 @@
       "textZoom": 100,
       "contentWidth": 1440,
       "canvas": {
-        "width": 912,
-        "height": 570
+        "width": 1018,
+        "height": 699
       },
-      "drawCalls": 24,
+      "drawCalls": 22,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 254.794854,
+      "coldLocalWorkerResponseMs": 475.68351699999994,
       "keyboardSkipLink": true,
       "keyboardStart": true,
       "keyboardDiceSelection": true,
@@ -34,12 +34,12 @@
       "textZoom": 100,
       "contentWidth": 390,
       "canvas": {
-        "width": 358,
-        "height": 230
+        "width": 336,
+        "height": 488
       },
-      "drawCalls": 24,
+      "drawCalls": 22,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 259.14910800000007,
+      "coldLocalWorkerResponseMs": 334.112932,
       "keyboardSkipLink": true,
       "keyboardStart": true,
       "keyboardDiceSelection": true,
@@ -57,12 +57,12 @@
       "textZoom": 100,
       "contentWidth": 320,
       "canvas": {
-        "width": 288,
-        "height": 230
+        "width": 272,
+        "height": 395
       },
-      "drawCalls": 24,
+      "drawCalls": 22,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 253.89937199999986,
+      "coldLocalWorkerResponseMs": 290.4689700000017,
       "keyboardSkipLink": true,
       "keyboardStart": true,
       "keyboardDiceSelection": true,
@@ -80,12 +80,12 @@
       "textZoom": 200,
       "contentWidth": 1280,
       "canvas": {
-        "width": 1216,
-        "height": 760
+        "width": 672,
+        "height": 462
       },
-      "drawCalls": 24,
+      "drawCalls": 23,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 300.96881399999984,
+      "coldLocalWorkerResponseMs": 305.50849099999687,
       "keyboardSkipLink": true,
       "keyboardStart": true,
       "keyboardDiceSelection": true,

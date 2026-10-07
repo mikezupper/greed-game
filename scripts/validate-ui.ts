@@ -26,26 +26,30 @@ try {
     page.on('console', message => { if (message.type() === 'error') errors.push(`${scenario.name}: ${message.text()}`); });
     await page.goto(`http://127.0.0.1:${server.port}`);
     if (scenario.textZoom !== 100) await page.addStyleTag({ content: `html { font-size: ${scenario.textZoom}% !important; }` });
-    await page.locator('dice-tray canvas').waitFor();
+    await page.getByRole('heading', { name: 'Play at this table' }).waitFor();
     await page.keyboard.press('Tab');
     assert.equal(await page.evaluate(() => document.activeElement?.getAttribute('href')), '#main');
     await page.keyboard.press('Enter');
     await page.getByRole('button', { name: 'Start game', exact: true }).focus(); await page.keyboard.press('Enter');
+    await page.locator('dice-tray canvas').waitFor();
     let coldLocalWorkerResponseMs = 0;
     for (let openingRoll = 0; openingRoll < 50; openingRoll++) {
-      if (await page.locator('.table-layout').getAttribute('data-stage') !== 'opening') break;
-      const revision = Number(await page.locator('.table-layout').getAttribute('data-revision'));
+      if (await page.locator('.screen').getAttribute('data-stage') !== 'opening') break;
+      const revision = Number(await page.locator('.screen').getAttribute('data-revision'));
       const started = performance.now();
-      await page.getByRole('button', { name: 'Roll 1 die', exact: true }).click();
-      await page.waitForFunction(r => { const table = document.querySelector<HTMLElement>('.table-layout'); return Number(table?.dataset['revision']) > r && table?.dataset['phase'] !== 'rolling'; }, revision);
+      await page.getByRole('button', { name: /^Roll 1 die/ }).click();
+      await page.waitForFunction(r => { const table = document.querySelector<HTMLElement>('.screen'); return Number(table?.dataset['revision']) > r && table?.dataset['phase'] !== 'rolling'; }, revision);
       if (openingRoll === 0) coldLocalWorkerResponseMs = performance.now() - started;
     }
-    await page.getByRole('button', { name: 'Roll 6 dice', exact: true }).click();
-    await page.locator('.die-button').first().waitFor();
+    const openingSeed = await page.locator('dice-tray').getAttribute('data-seed');
+    await page.getByRole('button', { name: /^Roll 6 dice/ }).click();
+    // Dice buttons appear after playback, so read the first recorded pose as soon as the new roll arrives.
+    await page.waitForFunction(seed => { const tray = document.querySelector('dice-tray'); return tray?.hasAttribute('data-seed') && tray.getAttribute('data-seed') !== seed; }, openingSeed);
     const initialPoses = await page.locator('dice-tray').getAttribute('data-poses');
     await page.locator('dice-tray[data-settled="true"]').waitFor({ timeout: 20_000 });
     const finalPoses = await page.locator('dice-tray').getAttribute('data-poses');
-    assert.equal(await page.locator('.die-button').count(), 6);
+    await page.locator('.die-button').first().waitFor();
+    assert.equal(await page.locator('.die-button:not([hidden])').count(), 6);
     assert.equal(await page.getByRole('alert').count(), 0);
     if (scenario.motion === 'no-preference') assert.notEqual(initialPoses, finalPoses, 'Normal motion must advance the recorded poses.');
     const firstDie = page.locator('.die-button').first(); let keyboardDiceSelection = false;

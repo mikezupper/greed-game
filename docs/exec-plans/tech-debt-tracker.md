@@ -9,3 +9,5 @@
 | Manual browser/assistive-technology checks outstanding | Automated Chromium evidence has limits | Release plan |
 | Actual domain/host/CI runner unset | Public publication incomplete | Release plan |
 | Vendored prerelease Gyral | Upgrades need deliberate compatibility review | Preserve exact artifacts and provenance |
+| Held dice are not grouped by roll | The rail cannot show points per keep | Record keep groups in table state if players want it |
+| Redesign checked in Chromium only | Fonts, WebGL framing and overlays unverified elsewhere | Firefox/Safari and real-device pass in the release plan |

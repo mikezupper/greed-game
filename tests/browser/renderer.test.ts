@@ -41,3 +41,18 @@ it('reconstructs held faces and untouched dice identically after a partial-roll 
   expect(readFace({ x, y, z, w }).value).toBe(6);
   for (let cycle = 0; cycle < 10; cycle++) { a.remove(); document.body.append(a); expect(a.querySelectorAll('canvas')).toHaveLength(1); }
 });
+it('places real buttons over choosable dice and reports picks', async () => {
+  const tray = new DiceTray(); tray.style.cssText = 'display:block;width:480px;height:330px;position:relative';
+  document.body.append(tray);
+  const roll = { seed: 7, engine: 'fixture', dt: 1 / 60, steps: 0, settled: true, nudges: 0, dice: [{ id: 0, value: 5 as const }, { id: 1, value: 2 as const }],
+    frames: [{ step: 0, poses: [{ id: 0, position: { x: -2, y: 0.5, z: 0 }, rotation: { x: 0, y: 0, z: 0, w: 1 } }, { id: 1, position: { x: 2, y: 0.5, z: 1 }, rotation: { x: 0, y: 0, z: 0, w: 1 } }] }] };
+  tray.snapshot = { roll, kept: [], selected: [0], dice: roll.dice, enabled: true, hints: [0] };
+  const visible = () => [...tray.querySelectorAll<HTMLButtonElement>('.die-button')].filter(b => !b.hidden);
+  await vi.waitFor(() => expect(visible()).toHaveLength(2));
+  expect(visible().map(b => b.textContent)).toEqual(['Die showing 5', 'Die showing 2']);
+  expect(visible()[0]?.getAttribute('aria-pressed')).toBe('true');
+  const picks: unknown[] = []; tray.addEventListener('dice-pick', event => picks.push((event as CustomEvent).detail));
+  visible()[1]?.click(); expect(picks).toEqual([1]);
+  tray.snapshot = { roll, kept: [], selected: [], dice: roll.dice, enabled: false };
+  expect(visible().every(b => b.disabled)).toBe(true);
+});

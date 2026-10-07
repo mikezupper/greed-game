@@ -54,7 +54,7 @@ export async function startServer(options: ServerOptions) {
       const path = decodeURIComponent(new URL(req.url ?? '/', 'http://local').pathname);
       const file = resolve(root, `.${path.endsWith('/') ? `${path}index.html` : path}`);
       if (!file.startsWith(root + sep) || !statSync(file, { throwIfNoEntry: false })?.isFile()) return json(404, { error: 'Not found.' });
-      const mime: Record<string, string> = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.json': 'application/json', '.wasm': 'application/wasm' };
+      const mime: Record<string, string> = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.json': 'application/json', '.wasm': 'application/wasm', '.woff2': 'font/woff2' };
       let body: Buffer | string = await readFile(file), encoding: string | undefined;
       if (extname(file) === '.html' && publicOrigin) body = body.toString().replace('</head>', `<link rel="canonical" href="${publicOrigin}/"><meta property="og:url" content="${publicOrigin}/"><meta property="og:image" content="${publicOrigin}/social.png"></head>`);
       else for (const [format, suffix] of [['br', '.br'], ['gzip', '.gz']] as const) {

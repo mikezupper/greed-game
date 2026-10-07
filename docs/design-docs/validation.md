@@ -42,8 +42,9 @@ the command rate, while the separate UI and container checks retain normal playb
 
 ## UI and performance
 
-Desktop light, 390px dark with motion, 320px light with reduced motion, and desktop dark
-with 200% root-font enlargement passed. The driver checks local worker startup, saved
+After the card-room redesign, desktop light, 390px dark with motion, 320px light with
+reduced motion, and desktop dark with 200% root-font enlargement passed again, with no
+axe violations. Dice are selected through the buttons the tray places over the 3D dice. The driver checks local worker startup, saved
 roll restoration, skip-link/start/dice keyboard actions, 44px controls, overflow, console
 errors and axe WCAG rules. Screenshots were inspected. Renderer regressions cover late
 custom-element upgrades, playback, partial-roll/held-dice reconstruction, and repeated

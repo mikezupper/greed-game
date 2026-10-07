@@ -1,8 +1,8 @@
 {
-  "measuredAt": "2026-10-07T21:41:32.886Z",
+  "measuredAt": "2026-10-07T22:30:34.774Z",
   "browsers": 2,
   "target": 10000,
-  "moves": 188,
+  "moves": 83,
   "sharedRoll": true,
   "sameFinalPoses": true,
   "invitePrefilled": true,

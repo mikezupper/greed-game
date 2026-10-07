@@ -17,7 +17,7 @@
     <a class="skip-link" href="#main">Skip to the game</a>
     <header class="site-header"><a href="/" class="wordmark" aria-label="Greed home">GREED<span aria-hidden="true">⚄</span></a><nav aria-label="Primary"><a href="#rules">How to play</a></nav></header>
     <main id="main">
-      <hgroup class="intro"><p>A game of nerve &amp; six dice</p><h1>One more roll?</h1><p>Keep what counts. Bank what you can. Know when to stop.</p></hgroup>
+      <hgroup class="intro"><p>A game of nerve &amp; six dice</p><h1>One more <em>roll?</em></h1><p>Keep what counts. Bank what you can. Know when to stop.</p></hgroup>
       <section id="game" aria-label="Greed game"><noscript><p>Enable JavaScript to play. The rules below are available without it.</p></noscript></section>
       <section id="rules" class="rules" aria-labelledby="rules-heading"><h2 id="rules-heading">Every roll is a choice.</h2>
         <p>Roll six dice and keep at least one scoring die or combination. Bank your turn points, or roll the remaining dice. A roll with no scoring dice is a <dfn>Farkle</dfn>: you lose the points from that turn.</p>
@@ -26,17 +26,20 @@
           <!-- scoring:start --><tr><th scope="row">Single 1 / single 5</th><td>100 / 50</td></tr><tr><th scope="row">Three 1s</th><td>1,000</td></tr><tr><th scope="row">Three 2s–6s</th><td>Face value × 100</td></tr>
           <tr><th scope="row">Four / five / six of a kind</th><td>1,000 / 2,000 / 3,000</td></tr><tr><th scope="row">Straight / three distinct pairs</th><td>1,500</td></tr><tr><th scope="row">Two distinct triplets</th><td>2,500</td></tr><!-- scoring:end -->
         </tbody></table></details>
-        <p>Keep commits one selection from the current roll. Four ones score 1,000 as a group; they cannot be kept as a triplet plus a single for 1,100. Three pairs means three different faces.</p>
+        <p>Choosing Bank or Roll commits your selection from the current roll. Four ones score 1,000 as a group; they cannot be kept as a triplet plus a single for 1,100. Three pairs means three different faces.</p>
         <p>Bank at least 500 points in one turn to get on the board. After that, you can bank any scoring turn. Once someone banks 10,000, every other player gets exactly one final turn. The highest score wins; tied leaders play equal-turn sudden-death rounds.</p>
+        <details><summary>How likely is a Farkle?</summary><table><caption>Chance that a throw has no scoring dice, with fair dice</caption><thead><tr><th scope="col">Dice thrown</th><th scope="col">Risk</th><th scope="col">Chance</th></tr></thead><tbody>
+          <!-- odds:start --><!-- odds:end -->
+        </tbody></table></details>
         <details><summary>Your first turn</summary><ol>
           <li>Start a local table, or create an online room and invite friends. Online players choose Ready to play before the host starts.</li>
           <li>Roll one die each. The highest starts; tied leaders roll again.</li>
-          <li>On your turn, roll six dice. Select single 1s or 5s, or a whole scoring combination, then choose Keep.</li>
-          <li>Bank when you can, or roll the remaining dice. You must keep a scoring selection before each new roll.</li>
-          <li>A Farkle loses your unbanked points. Choose Next player to pass the dice.</li>
-        </ol><p>Use <kbd>Tab</kbd> to move between controls and <kbd>Space</kbd> or <kbd>Enter</kbd> to activate them. Dice buttons announce their values and selection. Reduced motion follows your device settings; sound is optional.</p></details>
+          <li>On your turn, roll six dice. Select single 1s or 5s, or a whole scoring combination. Then choose Bank to end your turn, or Roll to throw the dice you did not keep.</li>
+          <li>Every Bank or Roll keeps your selection first. The Roll button shows the chance that the next throw has no scoring dice.</li>
+          <li>A Farkle loses your unbanked points. Choose Pass the dice to hand over the turn.</li>
+        </ol><p>Use <kbd>Tab</kbd> to move between controls and <kbd>Space</kbd> or <kbd>Enter</kbd> to activate them. Each die on the table is a button that announces its value and selection; Scoring hints marks dice that can score. Reduced motion follows your device settings; sound is optional.</p></details>
         <details><summary>Online rooms and reconnecting</summary><p>Rooms hold two to eight guests. Share the invite link before starting; late visitors can spectate. Reload in the same browser to reclaim your seat. Opening the same seat in another tab transfers control to that tab.</p>
-          <p>The host can enable a 60-second decision clock. A disconnected player has 30 seconds to return. After a timeout, committed points are banked if legal; otherwise the turn is forfeited. The host role passes to a connected player when needed.</p>
+          <p>The host can enable a 60-second decision clock. A disconnected player has 30 seconds to return. After a timeout, points already kept are banked if legal; otherwise the turn is forfeited. Dice selected but not yet banked or rolled do not count. The host role passes to a connected player when needed.</p>
           <p>Guest names, scores and dice are visible to everyone in the room. Your reconnect token stays in this browser. Unused rooms expire after 24 hours. Local matches save in this browser; clearing browser data removes that save and any guest seat tokens.</p></details>
       </section>
     </main>

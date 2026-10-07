@@ -4,8 +4,8 @@ export const Name = z.string().trim().min(1).max(24);
 export const RoomCode = z.string().regex(/^[A-HJ-NP-Z2-9]{6}$/);
 const Ids = z.array(z.number().int().min(0).max(5)).min(1).max(6).refine(ids => new Set(ids).size === ids.length).readonly();
 export const MoveSchema = z.discriminatedUnion('type', [
-  z.strictObject({ type: z.literal('Roll') }), z.strictObject({ type: z.literal('Keep'), ids: Ids }),
-  z.strictObject({ type: z.literal('Bank') }), z.strictObject({ type: z.literal('Next') }),
+  z.strictObject({ type: z.literal('Roll'), keep: Ids.optional() }), z.strictObject({ type: z.literal('Keep'), ids: Ids }),
+  z.strictObject({ type: z.literal('Bank'), keep: Ids.optional() }), z.strictObject({ type: z.literal('Next') }),
   z.strictObject({ type: z.literal('Start') }), z.strictObject({ type: z.literal('Rematch') }),
   z.strictObject({ type: z.literal('Ready'), ready: z.boolean() }), z.strictObject({ type: z.literal('Clock'), enabled: z.boolean() }),
   z.strictObject({ type: z.literal('Leave') }), z.strictObject({ type: z.literal('Retry') }),

@@ -11,8 +11,8 @@ export const PIP_PATTERNS: Readonly<Record<number, readonly (readonly [number, n
 export function diceAssets() {
   const bodyGeometry = new RoundedBoxGeometry(1, 1, 1, 3, 0.07);
   const pipGeometry = new CircleGeometry(0.075, 16);
-  const ivory = new MeshStandardMaterial({ color: '#eee5cd', roughness: 0.3 });
-  const ink = new MeshStandardMaterial({ color: '#172b29', roughness: 0.7 });
+  const ivory = new MeshStandardMaterial({ color: '#f4ebd4', roughness: 0.38 });
+  const ink = new MeshStandardMaterial({ color: '#16221d', roughness: 0.8 });
   const instances: InstancedMesh[] = [];
   const make = (): Group => {
   const die = new Group(), body = new Mesh(bodyGeometry, ivory);

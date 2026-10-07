@@ -36,6 +36,17 @@ describe('turn transitions', () => {
     expect(applyMove(busted, 'a', { type: 'Roll' }).ok).toBe(false);
     expect(move(busted, { type: 'Next' }).active).toBe(1);
   });
+  it('commits a selection carried by Bank or Roll in one transition, or not at all', () => {
+    const table = rolled(initial, [1, 1, 1, 2, 3, 4]);
+    const banked = move(table, { type: 'Bank', keep: [0, 1, 2] });
+    expect(banked).toEqual(move(move(table, { type: 'Keep', ids: [0, 1, 2] }), { type: 'Bank' }));
+    const rolling = move(table, { type: 'Roll', keep: [0] });
+    expect(rolling.phase).toBe('rolling'); expect(rolling.turnScore).toBe(100); expect(rolling.remaining).toEqual([1, 2, 3, 4, 5]);
+    expect(applyMove(table, 'a', { type: 'Bank', keep: [0] })).toEqual({ ok: false, error: 'You need 500 points in one turn to get on the board.' });
+    expect(applyMove(table, 'a', { type: 'Roll', keep: [3] }).ok).toBe(false);
+    const hot = move(rolled(initial, [1, 2, 3, 4, 5, 6]), { type: 'Roll', keep: [0, 1, 2, 3, 4, 5] });
+    expect(hot.remaining).toHaveLength(6); expect(hot.turnScore).toBe(1500); expect(hot.kept).toEqual([]);
+  });
   it('ignores stale or incomplete roll completions', () => {
     expect(resolveRoll(initial, [])).toBe(initial);
     const rolling = move(initial, { type: 'Roll' });

@@ -17,26 +17,26 @@ try {
   }
   const base = `http://127.0.0.1:${server.port}`;
   await a.goto(base); await a.getByLabel('Your name').fill('Ada'); await a.getByRole('button', { name: 'Create room', exact: true }).click();
-  await a.locator('.room-bar code').waitFor(); const room = await a.locator('.room-bar code').textContent(); assert(room);
+  await a.locator('.room-code').waitFor(); const room = await a.locator('.room-code').textContent(); assert(room);
   await b.goto(`${base}/?room=${room}`); assert.equal(await b.getByLabel('Room code').inputValue(), room);
   await b.getByLabel('Your name').fill('Ben'); await b.getByRole('button', { name: 'Join room', exact: true }).click();
-  await a.getByText('online · 2 connected', { exact: true }).waitFor();
+  await a.getByText('Online · 2 connected', { exact: true }).waitFor();
   assert.equal(await a.getByRole('button', { name: 'Start game', exact: true }).isDisabled(), true);
   await opening(a, b); const current = await activePage(a, b), other = current === a ? b : a;
-  await move(current, 'Roll 6 dice');
+  await move(current, /^Roll 6 dice/);
   await other.locator('.die-button').first().waitFor();
   const state = async (page: typeof a) => ({ seed: await page.locator('dice-tray').getAttribute('data-seed'),
     values: await page.locator('.die-button').allTextContents(), poses: await page.locator('dice-tray').getAttribute('data-poses') });
   await current.locator('dice-tray[data-settled="true"]').waitFor(); await other.locator('dice-tray[data-settled="true"]').waitFor();
   const before = await state(current); assert.deepEqual(await state(other), before);
-  assert.equal(await other.getByRole('button', { name: 'Roll 6 dice', exact: true }).isDisabled(), true);
+  assert.equal(await other.getByRole('button', { name: /^(?:Roll|Bank|Pass the dice)/ }).first().isDisabled(), true);
   await a.screenshot({ path: '.artifacts/online-desktop.png', fullPage: true }); await b.screenshot({ path: '.artifacts/online-phone.png', fullPage: true });
-  await current.reload(); await current.getByText('online · 2 connected', { exact: true }).waitFor();
+  await current.reload(); await current.locator('.where', { hasText: 'Online · 2 connected' }).waitFor();
   assert.deepEqual(await state(current), before);
   const moves = await completeMatch(a, b);
   await a.getByRole('heading', { name: 'Match complete', exact: false }).waitFor();
   await a.screenshot({ path: '.artifacts/online-victory.png', fullPage: true });
-  await move(a, 'Play again'); await b.getByRole('heading', { name: 'Before the first roll' }).waitFor();
+  await move(a, /^Play again/); await b.getByRole('heading', { name: 'Before the first roll' }).waitFor();
   assert.deepEqual(errors, []);
   const report = { measuredAt: new Date().toISOString(), browsers: 2, target: 10_000, moves, sharedRoll: true, sameFinalPoses: true,
     invitePrefilled: true, readinessRequired: true, reconnectRestoresRoll: true, completeMatch: true, rematch: true, wrongPlayerControlsDisabled: true,

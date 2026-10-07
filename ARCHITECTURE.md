@@ -70,14 +70,17 @@ schema migrations retain the legacy snapshot; native SQLite backups work while s
 
 Gyral watches session snapshots through a subscription driver. Moves and room actions
 are commands. Reducers never call a socket, clock, RNG, worker or browser storage.
-`<dice-tray>` owns graphics lifecycle and pointer picks. Accessible HTML buttons expose
-the same selection actions. The tray never changes game state or decides a score.
+`<dice-tray>` owns the graphics lifecycle and the HTML buttons it positions over each
+choosable die; pointer, keyboard and assistive technology share those buttons. The tray
+never changes game state or decides a score. Bank and Roll moves may carry the selection,
+which the pure engine commits and resolves in one transition.
 
 Online clients replay server frames instead of re-simulating them. A slow client can
 skip rendering frames and retain the final outcome. Reduced motion jumps to the end.
 The local WASM worker is loaded only on the first local roll, and Three.js is a separate
-client chunk. Instanced pips reduce draw calls. A separate held-dice shelf has canonical
-positions/orientations, so a partial-roll reload reconstructs the same scene. Materials,
+client chunk. Instanced pips reduce draw calls. Held dice keep canonical poses
+outside the camera's view and appear on an HTML rail, so a partial-roll reload
+reconstructs the same scene. Materials,
 geometries, shadows, instance buffers, GPU contexts and listeners have explicit lifetimes.
 Local storage records the table, latest trajectory and any pending launch; network state
 is authoritative in SQLite. Public static rules are generated from shared scoring data.

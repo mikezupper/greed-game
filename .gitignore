@@ -5,3 +5,5 @@ dist/
 coverage/
 .env
 *.log
+.vitest-attachments/
+tests/browser/__screenshots__/
