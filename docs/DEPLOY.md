@@ -17,7 +17,7 @@ already supplied by the process take precedence. `.env.example` lists the settin
 For containers, Compose reads `.env` and passes the configured values.
 
 ```sh
-docker build -t greed-dice-game:scaffold .
+docker build -t greed-dice-game .
 npm run validate:container
 docker compose up -d --build
 ```

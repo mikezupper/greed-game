@@ -4,7 +4,7 @@ import { writeFileSync } from 'node:fs';
 import { setTimeout as delay } from 'node:timers/promises';
 import { Client, createRoom, startMatch } from '../tests/helpers/client.ts';
 
-const image = process.argv[2] ?? 'greed-dice-game:scaffold';
+const image = process.argv[2] ?? 'greed-dice-game:latest';
 const name = `greed-scaffold-check-${process.pid}`, volume = `${name}-data`;
 const docker = (...args: string[]) => execFileSync('docker', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 const clients: Client[] = [];

@@ -1,6 +1,27 @@
 {
   "name": "greed-dice-game",
   "version": "0.1.0",
+  "description": "Greed (Farkle) dice game with real physics: pass-and-play or private online rooms with a server-authoritative Rapier simulation and Three.js table.",
+  "license": "MIT",
+  "author": "Mike Zupper",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikezupper/greed-game.git"
+  },
+  "homepage": "https://github.com/mikezupper/greed-game#readme",
+  "keywords": [
+    "greed",
+    "farkle",
+    "dice-game",
+    "multiplayer",
+    "threejs",
+    "rapier",
+    "physics",
+    "websocket",
+    "sqlite",
+    "gyral",
+    "typescript"
+  ],
   "private": true,
   "type": "module",
   "engines": {

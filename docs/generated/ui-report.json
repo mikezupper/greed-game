@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-10-07T22:28:49.788Z",
+  "measuredAt": "2026-10-07T23:10:51.057Z",
   "browser": "Chromium with software WebGL",
   "results": [
     {
@@ -14,9 +14,9 @@
         "width": 1018,
         "height": 699
       },
-      "drawCalls": 22,
+      "drawCalls": 24,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 475.68351699999994,
+      "coldLocalWorkerResponseMs": 504.93427199999996,
       "keyboardSkipLink": true,
       "keyboardStart": true,
       "keyboardDiceSelection": true,
@@ -34,12 +34,12 @@
       "textZoom": 100,
       "contentWidth": 390,
       "canvas": {
-        "width": 336,
-        "height": 488
+        "width": 294,
+        "height": 428
       },
-      "drawCalls": 22,
+      "drawCalls": 23,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 334.112932,
+      "coldLocalWorkerResponseMs": 318.31619799999953,
       "keyboardSkipLink": true,
       "keyboardStart": true,
       "keyboardDiceSelection": true,
@@ -57,12 +57,12 @@
       "textZoom": 100,
       "contentWidth": 320,
       "canvas": {
-        "width": 272,
-        "height": 395
+        "width": 240,
+        "height": 349
       },
-      "drawCalls": 22,
+      "drawCalls": 25,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 290.4689700000017,
+      "coldLocalWorkerResponseMs": 273.72905900000114,
       "keyboardSkipLink": true,
       "keyboardStart": true,
       "keyboardDiceSelection": true,
@@ -80,15 +80,15 @@
       "textZoom": 200,
       "contentWidth": 1280,
       "canvas": {
-        "width": 672,
-        "height": 462
+        "width": 480,
+        "height": 330
       },
-      "drawCalls": 23,
+      "drawCalls": 19,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 305.50849099999687,
+      "coldLocalWorkerResponseMs": 313.2060659999988,
       "keyboardSkipLink": true,
       "keyboardStart": true,
-      "keyboardDiceSelection": true,
+      "keyboardDiceSelection": false,
       "localWorkerRoll": true,
       "localSaveRestored": true,
       "axeViolations": 0,
