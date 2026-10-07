@@ -1,11 +1,15 @@
+# The game behind an existing reverse proxy (for example a cloudflared container).
+# The proxy and this service share an external Docker network; the proxy reaches the
+# game as http://greed:8787 and no port is published on the host. See docs/DEPLOY.md.
 services:
   greed:
     build: .
-    ports: ["127.0.0.1:8787:8787"]
     environment:
       PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-}
       TRUSTED_PROXY: ${TRUSTED_PROXY:-}
+      CLIENT_IP_HEADER: ${CLIENT_IP_HEADER:-}
     volumes: ["greed-data:/app/.data"]
+    networks: [proxy]
     restart: unless-stopped
     mem_limit: 512m
     cpus: 1.0
@@ -18,5 +22,9 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+networks:
+  proxy:
+    external: true
+    name: ${PROXY_NETWORK:-edge}
 volumes:
   greed-data:

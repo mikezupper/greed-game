@@ -3,8 +3,8 @@
 Status: feature-complete local build; deployment configuration and manual release gates
 remain. No public host, domain or remote CI runner has been supplied or configured.
 
-1. Choose the real domain and host. Set PUBLIC_ORIGIN, GAME_DOMAIN and, if needed,
-   TRUSTED_PROXY to the actual proxy address. Use the supplied Caddy and container setup.
+1. Choose the real domain and host. Set PUBLIC_ORIGIN, TRUSTED_PROXY and CLIENT_IP_HEADER
+   for the existing proxy (see DEPLOY.md), and confirm per-visitor room limits through it.
 2. Run container, complete-match, reconnect, health and backup/restore checks on that host.
    Verify HTTPS/WSS, volume permissions, resource limits, logs and retention.
 3. Test real mobile GPUs and slow/cold networks. The compatibility WASM worker remains

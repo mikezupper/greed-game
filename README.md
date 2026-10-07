@@ -100,7 +100,7 @@ rules: 2.3% with six dice, rising to 66.7% with one.
 | Styling | Hand-written modern CSS: cascade layers, OKLCH tokens, `light-dark()`, container queries, logical properties |
 | Fonts | Fraunces and Commissioner variable fonts, self-hosted ([provenance](docs/references/fonts.md)) |
 | Tests | Vitest 4 (unit), Vitest browser mode in real Chromium, Playwright 1.63 and axe-core |
-| Deployment | Multi-stage Docker image, Compose and a Caddy template for HTTPS/WSS |
+| Deployment | Multi-stage Docker image; Compose service behind your existing reverse proxy (e.g. a Cloudflare Tunnel) |
 
 ## Architecture
 
@@ -179,7 +179,6 @@ The full write-up is in [ARCHITECTURE.md](ARCHITECTURE.md). The physics write-up
 ├── scripts/                 Repository checks, validation drivers, backup, compression
 ├── docs/                    Specs, design docs, plans, quality score, generated evidence
 ├── vendor/gyral/            Pinned Gyral release tarballs with checksums
-├── deploy/Caddyfile         HTTPS/WSS reverse-proxy template
 ├── Dockerfile, compose.yml  Production container
 └── AGENTS.md                Map and invariants for coding agents
 ```
@@ -219,11 +218,13 @@ npm start            # serves dist/ and the game server on http://127.0.0.1:8787
 
 ```sh
 docker build -t greed-dice-game .
-docker compose up -d --build     # app on 127.0.0.1:8787, data in the greed-data volume
+docker network create edge       # once: the network shared with your proxy
+docker compose up -d --build     # reachable from the proxy as http://greed:8787
 ```
 
-The Compose service runs as UID 1000 with a read-only root filesystem, a named data
-volume, CPU, memory and process limits, rotated logs and a health check on `/healthz`.
+The Compose service publishes no host port; your proxy reaches it over the shared network.
+It runs as UID 1000 with a read-only root filesystem, a named data volume, CPU, memory and
+process limits, rotated logs and a health check on `/healthz`.
 
 ## Configuration
 
@@ -237,8 +238,9 @@ Copy `.env.example` to start.
 | `DATA_DIR` | `.data` | Directory for `greed.sqlite` |
 | `STATIC_DIR` | `dist` | Built client files to serve |
 | `PUBLIC_ORIGIN` | *(unset)* | Exact public HTTPS origin, e.g. `https://greed.example.com`. Enables canonical and Open Graph URLs, `/sitemap.xml` and `/robots.txt`. Without it, the sitemap returns 503 rather than publish a made-up URL |
-| `TRUSTED_PROXY` | *(unset)* | Exact IP address of your reverse proxy as Node sees it. Only that peer's forwarded address is trusted, for room-creation rate limits |
-| `GAME_DOMAIN` | *(unset)* | Used by `deploy/Caddyfile`: the domain Caddy serves and gets certificates for |
+| `TRUSTED_PROXY` | *(unset)* | Exact IP address of your reverse proxy as the app sees it. Only that peer may report a visitor's address, which gives each visitor their own room-creation limit |
+| `CLIENT_IP_HEADER` | *(unset)* | Header the trusted proxy uses for the visitor's address. For Cloudflare: `cf-connecting-ip`. Unset: the last `X-Forwarded-For` entry |
+| `PROXY_NETWORK` | `edge` | Docker Compose only: the existing external network shared with your proxy |
 
 Built-in limits, not configurable through the environment:
 - Up to 256 live rooms, and 20 new rooms per client address per hour.
@@ -304,15 +306,23 @@ Start with the [documentation index](docs/index.md).
 
 ## Deployment
 
-Greed runs as **one Node service behind an HTTPS reverse proxy**, with SQLite on a
-persistent volume. The outline:
+Greed runs as **one Node service behind a reverse proxy you already operate**, such as a
+Cloudflare Tunnel, with SQLite on a persistent volume. The proxy provides HTTPS and the
+public hostname; this repository ships no proxy.
 
-1. Point a domain at a host with Docker, and set `PUBLIC_ORIGIN` (and `TRUSTED_PROXY` if
-   needed) in `.env`.
-2. Run `docker compose up -d --build`.
-3. Serve it through Caddy using [`deploy/Caddyfile`](deploy/Caddyfile) with `GAME_DOMAIN`
-   set. Caddy handles certificates and WebSocket upgrades.
-4. Check `/healthz`, then play a full match from two devices, including a reload.
+1. Create a shared Docker network once: `docker network create --subnet 172.30.0.0/24 edge`.
+2. Attach your proxy container to it with a fixed address (e.g. `172.30.0.10`) and route
+   your hostname to `http://greed:8787`. Don't override the Host header.
+3. Create `.env` beside `compose.yml`:
+
+   ```env
+   PUBLIC_ORIGIN=https://greed.example.com
+   TRUSTED_PROXY=172.30.0.10
+   CLIENT_IP_HEADER=cf-connecting-ip
+   ```
+
+4. Run `docker compose up -d --build`, check `/healthz` through the proxy, and play a
+   match from two devices, including a reload.
 5. Schedule backups. They use a consistent native SQLite copy and are safe while the
    server runs:
 
@@ -320,8 +330,9 @@ persistent volume. The outline:
    docker compose exec greed node scripts/backup.ts /app/.data/greed.sqlite /app/.data/backup-YYYY-MM-DD.sqlite
    ```
 
-Restore steps, proxy details and operations notes are in [docs/DEPLOY.md](docs/DEPLOY.md).
-Pre-launch gates are in the [release plan](docs/exec-plans/active/release.md).
+A complete `cloudflared` example, how visitor addresses are trusted, and restore steps are
+in [docs/DEPLOY.md](docs/DEPLOY.md). Pre-launch gates are in the
+[release plan](docs/exec-plans/active/release.md).
 
 ## Status and limitations
 

@@ -36,3 +36,19 @@ it('enforces the production message rate and WebSocket payload ceiling', async (
     oversized.send('x'.repeat(4096)); expect((await closed)[0]).toBe(1009);
   } finally { client.close(); await server.close(); rmSync(dir, { recursive: true, force: true }); }
 });
+it('limits room creation per visitor as reported by the trusted proxy, and ignores that header from anyone else', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'greed-proxy-'));
+  const create = (base: string, ip?: string) => fetch(`${base}/api/rooms`, { method: 'POST', headers: ip ? { 'CF-Connecting-IP': ip, 'X-Forwarded-For': '203.0.113.99' } : {} });
+  const trusted = await startServer({ port: 0, dataDir: join(dir, 'a'), trustedProxy: '127.0.0.1', clientIpHeader: 'CF-Connecting-IP' });
+  const untrusted = await startServer({ port: 0, dataDir: join(dir, 'b'), trustedProxy: '10.0.0.1', clientIpHeader: 'cf-connecting-ip' });
+  try {
+    const base = `http://127.0.0.1:${trusted.port}`;
+    for (let i = 0; i < 20; i++) expect((await create(base, '198.51.100.1')).status).toBe(201);
+    expect((await create(base, '198.51.100.1')).status).toBe(429);
+    expect((await create(base, '198.51.100.2')).status).toBe(201);
+    const other = `http://127.0.0.1:${untrusted.port}`;
+    for (let i = 0; i < 20; i++) expect((await create(other, `198.51.100.${i + 10}`)).status).toBe(201);
+    expect((await create(other, '198.51.100.200')).status).toBe(429);
+    await expect(startServer({ port: 0, dataDir: join(dir, 'c'), clientIpHeader: 'bad header' })).rejects.toThrow('CLIENT_IP_HEADER');
+  } finally { await trusted.close(); await untrusted.close(); rmSync(dir, { recursive: true, force: true }); }
+});

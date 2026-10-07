@@ -11,11 +11,14 @@ import { Room, type RoomOptions } from './room.ts';
 import { PhysicsPool } from './physics-pool.ts';
 
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-export interface ServerOptions extends RoomOptions { readonly port?: number; readonly host?: string; readonly dataDir: string; readonly staticDir?: string; readonly publicOrigin?: string; readonly matchTarget?: number; readonly idleMs?: number; readonly actionRate?: number; readonly trustedProxy?: string }
+export interface ServerOptions extends RoomOptions { readonly port?: number; readonly host?: string; readonly dataDir: string; readonly staticDir?: string; readonly publicOrigin?: string; readonly matchTarget?: number; readonly idleMs?: number; readonly actionRate?: number; readonly trustedProxy?: string; readonly clientIpHeader?: string }
 export async function startServer(options: ServerOptions) {
   const publicOrigin = options.publicOrigin ? new URL(options.publicOrigin).origin : undefined;
   if (options.publicOrigin && (publicOrigin !== options.publicOrigin || !/^https?:/.test(publicOrigin))) throw new Error('PUBLIC_ORIGIN must be an HTTP(S) origin without a path or trailing slash.');
   if (options.trustedProxy && !isIP(options.trustedProxy)) throw new Error('TRUSTED_PROXY must be one explicit proxy IP address.');
+  if (options.clientIpHeader && !/^[a-z0-9-]+$/i.test(options.clientIpHeader)) throw new Error('CLIENT_IP_HEADER must be a header name such as cf-connecting-ip.');
+  // Only the trusted proxy may report the visitor's address: in this header if configured, else the last X-Forwarded-For entry.
+  const clientIpHeader = options.clientIpHeader?.toLowerCase();
   mkdirSync(options.dataDir, { recursive: true });
   const database = new Database(resolve(options.dataDir, 'greed.sqlite'));
   const physics = new PhysicsPool();
@@ -38,8 +41,8 @@ export async function startServer(options: ServerOptions) {
       if (req.url === '/api/rooms' && req.method === 'POST') {
         if (!originAllowed(req.headers.origin, req.headers.host)) return json(403, { error: 'Origin refused.' });
         let address = (req.socket.remoteAddress ?? 'unknown').replace(/^::ffff:/, ''); const now = Date.now();
-        const forwarded = String(req.headers['x-forwarded-for'] ?? '').split(',').at(-1)?.trim();
-        if (options.trustedProxy === address && forwarded && isIP(forwarded)) address = forwarded;
+        const reported = clientIpHeader ? String(req.headers[clientIpHeader] ?? '').trim() : String(req.headers['x-forwarded-for'] ?? '').split(',').at(-1)?.trim();
+        if (options.trustedProxy === address && reported && isIP(reported)) address = reported;
         const recent = (creations.get(address) ?? []).filter(t => now - t < 3_600_000);
         if (recent.length >= 20 || rooms.size >= 256) return json(429, { error: 'Too many rooms. Try again later.' });
         creations.set(address, [...recent, now]);

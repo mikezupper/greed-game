@@ -27,7 +27,8 @@ A bounded worker queue, 1,800-step simulations, timeouts, creation limits, 128 s
 Broken pong liveness closes sockets. Empty rooms unload after five minutes; persisted
 snapshots expire after 24 hours without updates. Rate-address bookkeeping is pruned.
 
-Set PUBLIC_ORIGIN behind HTTPS and configure only the actual TRUSTED_PROXY IP. Origin
+Set PUBLIC_ORIGIN behind HTTPS and configure only the actual TRUSTED_PROXY IP. Only that
+peer may report a visitor address (CLIENT_IP_HEADER, else the last X-Forwarded-For entry). Origin
 checks do not replace seat authorization; native clients may omit Origin. Browser code
 cannot supply outcomes, clocks or scores. Static files stay under the built root and
 invite URLs are marked noindex.
