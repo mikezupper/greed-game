@@ -1,0 +1,14 @@
+{
+  "measuredAt": "2026-10-07T21:43:59.784Z",
+  "imageId": "sha256:397a6740f0addbc1925c2618f4040302d667795b4037c3c812700688896c511b",
+  "node": "v24.21.0",
+  "uid": "1000",
+  "health": true,
+  "staticClient": true,
+  "guestRooms": true,
+  "workerRoll": true,
+  "liveBackup": true,
+  "readOnlyRoot": true,
+  "resourceLimits": true,
+  "persistedSeatAndTrajectoryAfterRestart": true
+}

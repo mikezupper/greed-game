@@ -1,0 +1,32 @@
+[
+  {
+    "skill": "google-seo",
+    "source": "google-seo-skill",
+    "commit": "86842312b6b80b2b52d108b58bdbdd46b7ab2488",
+    "entry_sha256": "9f07869fb5916fdb135ecd33e05f8daa4564d62e2f81b2a2df081eef98b18013"
+  },
+  {
+    "skill": "modern-css",
+    "source": "modern-css-skill",
+    "commit": "52a9eb3e54800db65bed7e94fc20ddbf28774a49",
+    "entry_sha256": "0b7c9b0694c40b658f79e91d275c87e667cc721fb73071221df82fdf01b931e8"
+  },
+  {
+    "skill": "semantic-html",
+    "source": "semantic-html-skill",
+    "commit": "2f804ed7fc46f10aebbf129ce3e3b25200608b80",
+    "entry_sha256": "53e76b3eba937456ba4328bd953a9e924f2261eda6a09e5666cdf6b1ab6289f6"
+  },
+  {
+    "skill": "sense-of-style",
+    "source": "the_sense_of_style-writing-skill",
+    "commit": "e93499a48ef1d5759a3d571a661ea8f25a886615",
+    "entry_sha256": "c0537c5702b579b3e1098a977fa26b00a728f1d70be2ff4abb0e6178d25d9539"
+  },
+  {
+    "skill": "gyral",
+    "source": "gyral-next/skills/gyral",
+    "commit": "bd2acc9a23c7687c5862c52e037266b91891efe6",
+    "entry_sha256": "4b7d7a34b69f8dcfe424c05194ce7617503dc2c5d63281e19d3fa0708f88efc2"
+  }
+]

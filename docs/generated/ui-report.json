@@ -1,0 +1,100 @@
+{
+  "measuredAt": "2026-10-07T21:41:51.888Z",
+  "browser": "Chromium with software WebGL",
+  "results": [
+    {
+      "name": "desktop-light",
+      "width": 1440,
+      "height": 1100,
+      "scheme": "light",
+      "motion": "reduce",
+      "textZoom": 100,
+      "contentWidth": 1440,
+      "canvas": {
+        "width": 912,
+        "height": 570
+      },
+      "drawCalls": 24,
+      "smallTargets": [],
+      "coldLocalWorkerResponseMs": 254.794854,
+      "keyboardSkipLink": true,
+      "keyboardStart": true,
+      "keyboardDiceSelection": true,
+      "localWorkerRoll": true,
+      "localSaveRestored": true,
+      "axeViolations": 0,
+      "animation": "skipped"
+    },
+    {
+      "name": "phone-dark-motion",
+      "width": 390,
+      "height": 844,
+      "scheme": "dark",
+      "motion": "no-preference",
+      "textZoom": 100,
+      "contentWidth": 390,
+      "canvas": {
+        "width": 358,
+        "height": 230
+      },
+      "drawCalls": 24,
+      "smallTargets": [],
+      "coldLocalWorkerResponseMs": 259.14910800000007,
+      "keyboardSkipLink": true,
+      "keyboardStart": true,
+      "keyboardDiceSelection": true,
+      "localWorkerRoll": true,
+      "localSaveRestored": true,
+      "axeViolations": 0,
+      "animation": "observed"
+    },
+    {
+      "name": "small-phone-light",
+      "width": 320,
+      "height": 740,
+      "scheme": "light",
+      "motion": "reduce",
+      "textZoom": 100,
+      "contentWidth": 320,
+      "canvas": {
+        "width": 288,
+        "height": 230
+      },
+      "drawCalls": 24,
+      "smallTargets": [],
+      "coldLocalWorkerResponseMs": 253.89937199999986,
+      "keyboardSkipLink": true,
+      "keyboardStart": true,
+      "keyboardDiceSelection": true,
+      "localWorkerRoll": true,
+      "localSaveRestored": true,
+      "axeViolations": 0,
+      "animation": "skipped"
+    },
+    {
+      "name": "text-zoom-dark",
+      "width": 1280,
+      "height": 1000,
+      "scheme": "dark",
+      "motion": "reduce",
+      "textZoom": 200,
+      "contentWidth": 1280,
+      "canvas": {
+        "width": 1216,
+        "height": 760
+      },
+      "drawCalls": 24,
+      "smallTargets": [],
+      "coldLocalWorkerResponseMs": 300.96881399999984,
+      "keyboardSkipLink": true,
+      "keyboardStart": true,
+      "keyboardDiceSelection": true,
+      "localWorkerRoll": true,
+      "localSaveRestored": true,
+      "axeViolations": 0,
+      "animation": "skipped"
+    }
+  ],
+  "errors": [],
+  "limits": "Text enlargement is CSS root-font-size, not a native browser zoom test. Axe is automated evidence; manual screen reader, mobile GPU and cross-browser audits remain."
+}

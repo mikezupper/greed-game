@@ -1,0 +1,22 @@
+services:
+  greed:
+    build: .
+    ports: ["127.0.0.1:8787:8787"]
+    environment:
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-}
+      TRUSTED_PROXY: ${TRUSTED_PROXY:-}
+    volumes: ["greed-data:/app/.data"]
+    restart: unless-stopped
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 128
+    read_only: true
+    tmpfs: ["/tmp:size=32m"]
+    stop_grace_period: 15s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes:
+  greed-data:

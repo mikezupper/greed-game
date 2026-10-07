@@ -1,0 +1,13 @@
+{
+  "measuredAt": "2026-10-07T21:31:56.456Z",
+  "concurrentRooms": 8,
+  "realClients": 16,
+  "resultLatencyMs": {
+    "p50": 53.51874900000007,
+    "p95": 95.96164999999996,
+    "max": 95.96164999999996
+  },
+  "processRssMiB": 358.0078125,
+  "sameResultAcrossEachPair": true,
+  "limits": "Single machine; warmed worker; 8 simultaneous throws, not sustained capacity. Playback delay disabled. Production command rate retained."
+}

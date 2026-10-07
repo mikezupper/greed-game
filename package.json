@@ -1,0 +1,54 @@
+{
+  "name": "greed-dice-game",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.15.0 <25"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "dev:server": "node --watch src/server/main.ts",
+    "start": "node src/server/main.ts",
+    "build": "vite build && node scripts/compress.ts",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src tests",
+    "check:repo": "node scripts/check-repo.ts",
+    "test": "vitest run",
+    "test:unit": "vitest run --project unit",
+    "test:browser": "vitest run --project browser",
+    "check": "npm run check:repo && npm run typecheck && npm run lint && npm test && npm run build",
+    "validate:physics": "node scripts/validate-physics.ts",
+    "validate:online": "node scripts/validate-online.ts",
+    "validate:ui": "node scripts/validate-ui.ts",
+    "validate:container": "node scripts/validate-container.ts",
+    "backup": "node scripts/backup.ts",
+    "validate:load": "node scripts/validate-load.ts"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "0.21.0",
+    "@gyral/core": "file:vendor/gyral/0.3.1-next.1/gyral-core-0.3.1-next.1.tgz",
+    "three": "0.186.1",
+    "ws": "8.22.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@gyral/testing": "file:vendor/gyral/0.3.1-next.1/gyral-testing-0.3.1-next.1.tgz",
+    "@types/node": "24.10.1",
+    "@types/three": "0.186.0",
+    "@types/ws": "8.18.1",
+    "@typescript-eslint/parser": "8.71.0",
+    "@vitest/browser-playwright": "4.1.11",
+    "eslint": "10.12.0",
+    "parse5": "8.0.1",
+    "playwright": "1.63.0",
+    "typescript": "5.9.3",
+    "vite": "8.3.3",
+    "vitest": "4.1.11"
+  },
+  "overrides": {
+    "@gyral/core": "$@gyral/core"
+  }
+}

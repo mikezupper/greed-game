@@ -1,0 +1,200 @@
+{
+  "measuredAt": "2026-10-07T20:58:36.089Z",
+  "engine": "rapier-0.21.0/launch-2",
+  "sampleSeed": 2447445413,
+  "node": "v24.15.0",
+  "cpu": "Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz",
+  "identicalReplay": true,
+  "groups": [
+    {
+      "count": 1,
+      "rolls": 1000,
+      "faces": [
+        180,
+        178,
+        160,
+        151,
+        174,
+        157
+      ],
+      "chiSquare": 4.46,
+      "positionChiSquare": [
+        4.46
+      ],
+      "settled": 1000,
+      "failureSeeds": [],
+      "nudgedRolls": 28,
+      "equalPairRate": null,
+      "computationMs": {
+        "p50": 2.4019859999998516,
+        "p95": 3.788774000000103,
+        "max": 14.950112999999988
+      },
+      "visualSecondsP95": 3.4166666666666665,
+      "jsonBytesP95": 9813,
+      "gzipBytesP95": 1983
+    },
+    {
+      "count": 2,
+      "rolls": 1000,
+      "faces": [
+        335,
+        352,
+        318,
+        322,
+        340,
+        333
+      ],
+      "chiSquare": 2.278,
+      "positionChiSquare": [
+        1.904,
+        3.3440000000000003
+      ],
+      "settled": 1000,
+      "failureSeeds": [],
+      "nudgedRolls": 66,
+      "equalPairRate": 0.164,
+      "computationMs": {
+        "p50": 3.121118000000024,
+        "p95": 5.055963000000702,
+        "max": 10.336553999999978
+      },
+      "visualSecondsP95": 4.166666666666667,
+      "jsonBytesP95": 21318,
+      "gzipBytesP95": 3519
+    },
+    {
+      "count": 3,
+      "rolls": 1000,
+      "faces": [
+        553,
+        518,
+        484,
+        496,
+        475,
+        474
+      ],
+      "chiSquare": 9.412,
+      "positionChiSquare": [
+        5.78,
+        4.568,
+        2.9480000000000004
+      ],
+      "settled": 1000,
+      "failureSeeds": [],
+      "nudgedRolls": 96,
+      "equalPairRate": 0.17266666666666666,
+      "computationMs": {
+        "p50": 3.9008190000004106,
+        "p95": 6.381022999999914,
+        "max": 15.033943999998883
+      },
+      "visualSecondsP95": 4.333333333333333,
+      "jsonBytesP95": 32024,
+      "gzipBytesP95": 4816
+    },
+    {
+      "count": 4,
+      "rolls": 1000,
+      "faces": [
+        666,
+        687,
+        694,
+        642,
+        646,
+        665
+      ],
+      "chiSquare": 3.2990000000000004,
+      "positionChiSquare": [
+        2.54,
+        2.0600000000000005,
+        4.724,
+        4.112
+      ],
+      "settled": 1000,
+      "failureSeeds": [],
+      "nudgedRolls": 123,
+      "equalPairRate": 0.16516666666666666,
+      "computationMs": {
+        "p50": 4.4406400000007125,
+        "p95": 6.888455000000249,
+        "max": 16.916463999998086
+      },
+      "visualSecondsP95": 4.566666666666666,
+      "jsonBytesP95": 44114,
+      "gzipBytesP95": 6173
+    },
+    {
+      "count": 5,
+      "rolls": 1000,
+      "faces": [
+        844,
+        802,
+        840,
+        842,
+        827,
+        845
+      ],
+      "chiSquare": 1.6695999999999998,
+      "positionChiSquare": [
+        4.364000000000001,
+        4.784,
+        3.308,
+        2.42,
+        5.444
+      ],
+      "settled": 1000,
+      "failureSeeds": [],
+      "nudgedRolls": 185,
+      "equalPairRate": 0.1636,
+      "computationMs": {
+        "p50": 5.413666000000376,
+        "p95": 8.79888199999914,
+        "max": 14.93648899999971
+      },
+      "visualSecondsP95": 4.816666666666666,
+      "jsonBytesP95": 56897,
+      "gzipBytesP95": 7629
+    },
+    {
+      "count": 6,
+      "rolls": 1000,
+      "faces": [
+        1030,
+        977,
+        1002,
+        1005,
+        975,
+        981
+      ],
+      "chiSquare": 2.3055276381909544,
+      "positionChiSquare": [
+        5.745728643216079,
+        6.8311557788944715,
+        3.1045226130653267,
+        4.202010050251256,
+        14.151758793969849,
+        3.056281407035176
+      ],
+      "settled": 995,
+      "failureSeeds": [
+        3602705804,
+        3004631712,
+        132704674,
+        3316171314,
+        4248905315
+      ],
+      "nudgedRolls": 232,
+      "equalPairRate": 0.16134003350083753,
+      "computationMs": {
+        "p50": 6.412672999998904,
+        "p95": 10.465667000000394,
+        "max": 21.644749999999476
+      },
+      "visualSecondsP95": 5.066666666666666,
+      "jsonBytesP95": 72310,
+      "gzipBytesP95": 8897
+    }
+  ],
+  "interpretation": "Seeded diagnostic, not proof of fair dice. Chi-square has 5 df; 20.515 is the unadjusted 0.1% threshold. Position tests and counts require multiple-comparison care. Repeat on other hardware and test serial dependence before launch."
+}

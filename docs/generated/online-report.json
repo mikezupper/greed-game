@@ -1,0 +1,16 @@
+{
+  "measuredAt": "2026-10-07T21:41:32.886Z",
+  "browsers": 2,
+  "target": 10000,
+  "moves": 188,
+  "sharedRoll": true,
+  "sameFinalPoses": true,
+  "invitePrefilled": true,
+  "readinessRequired": true,
+  "reconnectRestoresRoll": true,
+  "completeMatch": true,
+  "rematch": true,
+  "wrongPlayerControlsDisabled": true,
+  "acceleratedHarness": "Server playback delay disabled and command-rate limit increased; browsers use reduced motion. Real physical throws, sockets and game rules.",
+  "errors": []
+}
