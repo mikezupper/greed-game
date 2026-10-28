@@ -23,7 +23,10 @@ it('selects dice from the tray and sends them with the roll', async () => {
   expect(roll?.disabled).toBe(false); expect(roll?.textContent).toContain('67% Farkle risk');
   roll?.click(); await settled();
   expect(action.inputs).toContainEqual({ type: 'Move', move: { type: 'Roll', keep: [0] } });
-  element.remove(); expect(watch.calls[0]?.signal.aborted).toBe(true);
+  // Removal stops the host's commands a microtask later; attaching it again restarts its subscriptions.
+  element.remove(); await settled(); expect(watch.calls[0]?.signal.aborted).toBe(true);
+  document.body.append(element); await settled();
+  expect(watch.calls).toHaveLength(2); expect(watch.calls[1]?.signal.aborted).toBe(false);
 });
 it('describes room creation as an effect and validates names before issuing it', () => {
   const initial = { snapshot: { table: newTable([]), roll: null, revision: 0, room: null, playerId: null, online: [], connection: 'local' as const, error: null },

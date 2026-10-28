@@ -1,9 +1,10 @@
-import { each, html, intents } from '@gyral/core';
+import { each, html, intentsOf, type TemplateResult } from '@gyral/core';
 import { emptyLobby } from '../protocol/messages.ts';
-import type { Msg, State } from './model.ts';
+import type { GreedTable } from './greed-table.ts';
+import type { State } from './model.ts';
 
-const i = intents<Msg>();
-const seatName = (seat: { readonly index: number; readonly name: string }, count: number) => html`
+const i = intentsOf<typeof GreedTable>();
+const seatName = (seat: { readonly index: number; readonly name: string }, count: number): TemplateResult => html`
   <li><span class="seat-number" aria-hidden="true">${seat.index + 1}</span>
     <input type="text" name=${`seat-${seat.index}`} aria-label=${`Player ${seat.index + 1} name`} maxlength="24" autocomplete="off"
       value=${seat.name} data-intent=${i.SeatName} />
@@ -14,7 +15,7 @@ const seatRow = (p: { readonly id: string; readonly name: string }, flags: { rea
     <span class=${`seat-state${flags.online && flags.ready ? ' ok' : ''}`}>${flags.online ? (flags.ready ? 'Ready' : 'Not ready') : 'Offline'}</span></li>`;
 
 /** Before any match: pass-and-play seats beside online room creation and joining. */
-export function startScreen(s: State) {
+export function startScreen(s: State): TemplateResult {
   const seats = s.names.map((name, index) => ({ index, name }));
   return html`<div class="start">
     <section class="choice" aria-labelledby="local-heading">
@@ -38,7 +39,7 @@ export function startScreen(s: State) {
 }
 
 /** Online lobby: share the room, seat everyone, ready up, and let the host start. */
-export function waitingRoom(s: State) {
+export function waitingRoom(s: State): TemplateResult {
   const { table, connection, playerId, room, online } = s.snapshot, lobby = s.snapshot.lobby ?? emptyLobby();
   const host = lobby.host !== null && lobby.host === playerId, seated = playerId !== null && connection === 'online';
   const ready = playerId !== null && lobby.ready.includes(playerId);

@@ -3,6 +3,7 @@ dist/
 .data/
 .artifacts/
 coverage/
+.gyral/
 .env
 *.log
 .vitest-attachments/

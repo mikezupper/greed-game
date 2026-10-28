@@ -7,7 +7,7 @@ export default defineConfig({
     projects: [
       { test: { name: 'unit', environment: 'node', include: ['tests/unit/**/*.test.ts'], testTimeout: 30_000 } },
       {
-        ...gyralVitePreset({ clientOnly: true, optimize: ['@gyral/core'] }),
+        ...gyralVitePreset({ clientOnly: true }),
         test: {
           name: 'browser', include: ['tests/browser/**/*.test.ts'], testTimeout: 30_000,
           browser: {
