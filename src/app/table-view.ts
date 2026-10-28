@@ -1,16 +1,17 @@
-import { each, html, intents } from '@gyral/core';
+import { each, html, intentsOf, type TemplateResult } from '@gyral/core';
 import { emptyLobby } from '../protocol/messages.ts';
 import { BUST_CHANCE, scoringDice } from '../game/odds.ts';
 import { mini } from './glyphs.ts';
 import { scoreboard } from './lanes.ts';
 import { connectionLabel } from './screens.ts';
-import { bankable, busy, fmt, owns, risk, selection, type Msg, type State } from './model.ts';
+import { bankable, busy, fmt, owns, risk, selection, type State } from './model.ts';
+import type { GreedTable } from './greed-table.ts';
 
-const i = intents<Msg>();
+const i = intentsOf<typeof GreedTable>();
 type Move = { readonly intent: 'Roll' | 'Bank' | 'Next' | 'Rematch' | 'Retry' | 'NewTable'; readonly label: string; readonly sub: string;
   readonly enabled: boolean; readonly tone: 'lead' | 'bank' | 'roll' | 'plain'; readonly risk?: number };
 const riskBar = (dice: number | undefined) => dice === undefined ? '' : html`<span class="risk" aria-hidden="true"><b style="--risk: ${dice}"></b></span>`;
-const moveButton = (m: Move) => html`<li><button type="button" class=${`move ${m.tone}`} data-intent=${i[m.intent]} ?disabled=${!m.enabled}>
+const moveButton = (m: Move): TemplateResult => html`<li><button type="button" class=${`move ${m.tone}`} data-intent=${i[m.intent]} ?disabled=${!m.enabled}>
   <span class="move-label">${m.label}</span>${m.sub ? html`<span class="move-sub">${riskBar(m.risk)}${m.sub}</span>` : ''}</button></li>`;
 const rollMove = (dice: number, label: string, enabled: boolean, tone: Move['tone'], why: string): Move =>
   ({ intent: 'Roll', label, sub: enabled ? risk(dice) : why, enabled, tone, ...(enabled ? { risk: Math.round((BUST_CHANCE[dice] ?? 0) * 1000) / 10 } : {}) });
@@ -73,7 +74,7 @@ const heading = (s: State): string => {
   return stage === 'opening' ? `Opening roll · ${player?.name ?? ''}` : who;
 };
 
-export function tableScreen(s: State) {
+export function tableScreen(s: State): TemplateResult {
   const { table, connection, playerId } = s.snapshot, lobby = s.snapshot.lobby ?? emptyLobby(), stage = table.match.stage;
   const own = owns(s), locked = busy(s), chosen = selection(s), choosing = table.phase === 'choosing' && stage !== 'opening';
   const seconds = lobby.deadline === null ? null : Math.max(0, Math.ceil((lobby.deadline - s.now - (s.snapshot.clockOffset ?? 0)) / 1000));

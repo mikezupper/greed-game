@@ -49,14 +49,14 @@
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "0.21.0",
-    "@gyral/core": "file:vendor/gyral/0.3.1-next.1/gyral-core-0.3.1-next.1.tgz",
+    "@gyral/core": "0.3.7",
     "three": "0.186.1",
     "ws": "8.22.0",
     "zod": "4.6.5"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
-    "@gyral/testing": "file:vendor/gyral/0.3.1-next.1/gyral-testing-0.3.1-next.1.tgz",
+    "@gyral/testing": "0.3.7",
     "@types/node": "24.10.1",
     "@types/three": "0.186.0",
     "@types/ws": "8.18.1",

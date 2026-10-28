@@ -3,14 +3,15 @@
 Feature-complete local build with the card-room UI redesign, 2026-10-07. B = behavior tested; C = limited evidence.
 No grade implies certification or production-host approval.
 
-The final check passed 71 tests across twelve files, strict types, lint, repository/vendor
-checks and the production build. Online, UI, load and container reports are separate
-integration evidence.
+After the upgrade to Gyral 0.3.7 (2026-10-28), the check passed 72 tests across twelve files,
+strict types, lint, repository/vendor checks and the production build; the online, UI and
+container reports were regenerated on that build. Online, UI, load and container reports
+are separate integration evidence.
 
 | Area | Grade | Evidence / limits |
 | --- | --- | --- |
 | Scoring and complete matches | B | Scoring, entry, hot dice, opening ties, final queue, equal-turn sudden death, rematch; seeded and real-socket full matches |
-| Gyral integration | B | Strict types, template lint/compiler, real Chromium intents/effects and subscription teardown |
+| Gyral integration | B | Strict types, template lint/compiler, real Chromium intents/effects, subscription teardown and restart on reattach |
 | Rapier | B | Current two 6,000-throw samples all settled; prior failure seeds covered; three Node/browser hashes; finite fairness evidence |
 | Online room lifecycle | B | Ready/host/seat/turn checks, latest tab, spectators, clock/grace/host transfer, leave, bounded receipts and restart |
 | Persistence and recovery | B | Failed-write behavior, pending recovery, schema migration/refusal, live backup integrity and durable container restart |

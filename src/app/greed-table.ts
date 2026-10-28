@@ -21,11 +21,11 @@ const seatIndex = (target: unknown): number | undefined => {
   return Number.isInteger(index) && index >= 0 && index < 8 ? index : undefined;
 };
 
-export const GreedTable = define<State, Msg>('greed-table', {
+export const GreedTable = define<State, Msg>()('greed-table', {
   shadow: false,
-  init: () => [{ snapshot: initial, selected: [], name: '', room: '', names: ['Player 1', 'Player 2'], error: null, now: 0,
-    playing: false, sound: false, hints: true, moment: null },
-  [watchTable((snapshot): Msg => ({ _tag: 'Changed', snapshot })), watchClock((now): Msg => ({ _tag: 'Tick', now }))]],
+  init: () => ({ snapshot: initial, selected: [], name: '', room: '', names: ['Player 1', 'Player 2'], error: null, now: 0,
+    playing: false, sound: false, hints: true, moment: null }),
+  subscriptions: () => [watchTable((snapshot): Msg => ({ _tag: 'Changed', snapshot })), watchClock((now): Msg => ({ _tag: 'Tick', now }))],
   intent: {
     Pick: ({ value, event }) => {
       const id = event instanceof CustomEvent ? Number(event.detail) : Number(value);
