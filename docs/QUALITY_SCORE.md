@@ -3,7 +3,7 @@
 Feature-complete local build with the card-room UI redesign, 2026-10-07. B = behavior tested; C = limited evidence.
 No grade implies certification or production-host approval.
 
-After the upgrade to Gyral 0.3.7 (2026-10-28), the check passed 72 tests across twelve files,
+After the upgrade to Gyral 0.3.8 (2026-10-29), the check passed 72 tests across twelve files,
 strict types, lint, repository/vendor checks and the production build; the online, UI and
 container reports were regenerated on that build. Online, UI, load and container reports
 are separate integration evidence.

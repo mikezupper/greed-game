@@ -1,6 +1,6 @@
 # Greed: repository map
 
-Gyral 0.3.7 (exact npm packages), TypeScript, Vite 8, Vitest, Three.js and Rapier. Online rooms
+Gyral 0.3.8 (exact npm packages), TypeScript, Vite 8, Vitest, Three.js and Rapier. Online rooms
 use Node 24, WebSockets and SQLite. Local and online matches are implemented;
 public deployment and manual release checks remain.
 

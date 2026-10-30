@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-10-28T22:11:52.159Z",
+  "measuredAt": "2026-10-30T01:14:10.108Z",
   "browser": "Chromium with software WebGL",
   "results": [
     {
@@ -14,9 +14,9 @@
         "width": 1018,
         "height": 699
       },
-      "drawCalls": 21,
+      "drawCalls": 22,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 1014.817074,
+      "coldLocalWorkerResponseMs": 3450.520779999999,
       "keyboardSkipLink": true,
       "keyboardStart": true,
       "keyboardDiceSelection": true,
@@ -37,9 +37,9 @@
         "width": 294,
         "height": 428
       },
-      "drawCalls": 22,
+      "drawCalls": 23,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 848.0345619999989,
+      "coldLocalWorkerResponseMs": 960.4899729999997,
       "keyboardSkipLink": true,
       "keyboardStart": true,
       "keyboardDiceSelection": true,
@@ -60,9 +60,9 @@
         "width": 240,
         "height": 349
       },
-      "drawCalls": 25,
+      "drawCalls": 23,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 550.4100150000013,
+      "coldLocalWorkerResponseMs": 949.3818699999974,
       "keyboardSkipLink": true,
       "keyboardStart": true,
       "keyboardDiceSelection": true,
@@ -85,7 +85,7 @@
       },
       "drawCalls": 24,
       "smallTargets": [],
-      "coldLocalWorkerResponseMs": 1152.0329120000024,
+      "coldLocalWorkerResponseMs": 1965.8413350000046,
       "keyboardSkipLink": true,
       "keyboardStart": true,
       "keyboardDiceSelection": true,

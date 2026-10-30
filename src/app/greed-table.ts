@@ -27,11 +27,12 @@ export const GreedTable = define<State, Msg>()('greed-table', {
     playing: false, sound: false, hints: true, moment: null }),
   subscriptions: () => [watchTable((snapshot): Msg => ({ _tag: 'Changed', snapshot })), watchClock((now): Msg => ({ _tag: 'Tick', now }))],
   intent: {
-    Pick: ({ value, event }) => {
-      const id = event instanceof CustomEvent ? Number(event.detail) : Number(value);
+    // <dice-tray> reports picks (dice-pick) and playback (dice-playback) as CustomEvent details.
+    Pick: ({ detail }) => {
+      const id = Number(detail);
       return Number.isInteger(id) && id >= 0 && id <= 5 ? { _tag: 'Pick', id } : undefined;
     },
-    Playback: ({ event }) => event instanceof CustomEvent ? { _tag: 'Playback', playing: event.detail === true } : undefined,
+    Playback: ({ detail }) => typeof detail === 'boolean' ? { _tag: 'Playback', playing: detail } : undefined,
     Roll: () => ({ _tag: 'Roll' }), Bank: () => ({ _tag: 'Bank' }), Next: () => ({ _tag: 'Next' }),
     Name: ({ value }) => ({ _tag: 'Name', value: value ?? '' }), Room: ({ value }) => ({ _tag: 'Room', value: (value ?? '').toUpperCase() }),
     SeatName: ({ value, target }) => { const index = seatIndex(target); return index === undefined ? undefined : { _tag: 'SeatName', index, value: value ?? '' }; },

@@ -9,7 +9,24 @@ Next<S, M> = S | readonly [S, ReadonlyArray<Command<M | IntentRejected>>]
 Return the next state alone, or a tuple of state and commands. State is never an array (that
 is how Gyral tells the two apart), so wrap list state in an object: `{ items: [...] }`.
 
-`init(props)` returns a `Next` too: start loading data or listening to the router from `init`.
+`init(props)` returns a `Next` too: start a one-shot load there. Put the router's `listen`
+and other continuous watches in `subscriptions`, so they recover after a true detach.
+
+To type a reducer written outside the spec, name its entry: `Reducer<State, Msg, Variant<Msg,
+'Add'>>`, where `Variant<Msg, 'Add'>` is the member of `Msg` tagged `Add` (both are type exports
+of `@gyral/core`):
+
+```ts
+import type { Reducer, Update, Variant } from '@gyral/core';
+
+interface State {
+  readonly items: readonly string[];
+}
+type Msg = { readonly _tag: 'Add'; readonly item: string } | { readonly _tag: 'Clear' };
+
+const add: Reducer<State, Msg, Variant<Msg, 'Add'>> = (s, m) => ({ items: [...s.items, m.item] });
+export const update: Update<State, Msg> = { Add: add, Clear: () => ({ items: [] }) };
+```
 
 ## Commands are data
 
@@ -44,9 +61,9 @@ const load = () =>
     onFailure: (error): Msg => ({ _tag: 'Failed', error }),
   });
 
-export const Profile = define<State, Msg>('my-profile', {
+export const Profile = define<State, Msg>()('my-profile', {
   init: () => [{ _tag: 'Loading' }, [load()]],
-  intent: { Reload: () => ({ _tag: 'Reload' }) },
+  intent: { Reload: true },
   update: {
     Reload: () => [{ _tag: 'Loading' }, [load()]],
     Got: (_s, m) => ({ _tag: 'Loaded', user: m.user }),
@@ -72,8 +89,68 @@ can't show a stale user next to an error.
 | `IntentRejected { intent, issues, values? }` | `form()`/`field()` validation failed, or the server answered 422 | showing field errors                                         |
 | `StoreChanged { store, state, prev }`        | a store in `spec.stores` changed                                 | reacting to shared state (narrow with `changed(store, msg)`) |
 | `Hydrated { serverRendered }`                | once, after the first client render                              | progressive enhancement: switch to the JS-only UI            |
+| `Errored { phase, error }`                   | a reducer, intent parser or command failed                       | showing an error state (`references/errors.md`)              |
+| `FormReset` / `FormDisabled { disabled }`    | `formAssociated` only: the owning form reset, or disabled change | resetting the value, disabling controls                      |
+| `FormStateRestore { state, mode }`           | `formAssociated` only: session restore or autofill               | restoring the value (`references/forms.md`)                  |
 
 Without a reducer they leave state unchanged (props and stores are still readable via `ctx`).
+
+## Subscriptions: long-lived commands (ADR 0025)
+
+One-shot work (a request, a delay) is a command returned from `init` or a reducer. Work that
+should keep running while some condition holds (a clock, polling, a socket, a store or
+media-query watch, the router's `listen`) goes in `subscriptions(state, props)`, which returns
+the commands that should be running now:
+
+```ts
+import { command, define, html, prop, subscription } from '@gyral/core';
+import { listen, type RouteLocation } from '@gyral/router';
+import { every } from '@gyral/time';
+
+declare const rooms: { subscribe(room: string, listener: (text: string) => void): () => void };
+const roomFeed = subscription<string, string>('room', (emit, { input }) =>
+  rooms.subscribe(input, emit),
+);
+
+type Msg =
+  | { readonly _tag: 'Routed'; readonly location: RouteLocation }
+  | { readonly _tag: 'Poll'; readonly now: number }
+  | { readonly _tag: 'Said'; readonly text: string }
+  | { readonly _tag: 'Pause' };
+interface State {
+  readonly live: boolean;
+  readonly lines: readonly string[];
+}
+
+export const Room = define<State, Msg, { room: string }>()('my-room', {
+  props: { room: prop.string({ default: 'lobby' }) },
+  init: () => ({ live: true, lines: [] }),
+  subscriptions: (s, p) => [
+    listen((location) => ({ _tag: 'Routed', location })),
+    ...(s.live ? [every(30_000, (now): Msg => ({ _tag: 'Poll', now }), 'poll')] : []),
+    // restarts when the room prop changes
+    command(roomFeed, p.room, { onSuccess: (text): Msg => ({ _tag: 'Said', text }) }),
+  ],
+  intent: { Pause: true },
+  update: {
+    Routed: (s) => s,
+    Poll: (s) => s,
+    Said: (s, m) => ({ ...s, lines: [...s.lines, m.text] }),
+    Pause: (s) => ({ ...s, live: false }),
+  },
+  view: (s, i) => html`<button data-intent=${i.Pause}>Pause</button>${s.lines.length}`,
+});
+```
+
+After the first render and after every update and props change, Gyral diffs the list by lane
+(`key`, else the driver's name): new lanes start, missing lanes are aborted, a lane whose input
+changed restarts, an unchanged lane keeps running. Moves keep them running; a real removal
+stops them; attaching again starts them from the current state. So there is no start in `init`,
+no restart on `PropsChanged` and no reconnect handling. Give each subscription its own `key`
+when two use the same driver, and keep inputs to what should restart it. Inputs compare as
+data: functions inside them are ignored, so an inline selector (`watch(store, (s) => s.x)`)
+doesn't restart the lane; to restart on a new selector, change the key. In model tests,
+`subscriptionsFor(spec, state, props)` returns the list.
 
 ## Ignoring stale responses
 
@@ -92,7 +169,7 @@ type Msg =
   | { readonly _tag: 'Typed'; readonly query: string }
   | { readonly _tag: 'Hits'; readonly query: string; readonly hits: readonly string[] };
 
-export const Search = define<State, Msg>('my-search', {
+export const Search = define<State, Msg>()('my-search', {
   init: () => ({ query: '', hits: [] }),
   intent: { Typed: ({ value }) => ({ _tag: 'Typed', query: value ?? '' }) },
   update: {
@@ -125,9 +202,13 @@ export const Search = define<State, Msg>('my-search', {
 
 ## Built-in commands in core
 
-- `emit(output)` — send an output to the parent (child components).
+- `emit(output)` from `outputs<O>()` — send an output to the parent (child components;
+  composition.md).
 - `send(store, msg)` — write to a store.
-- `focus(selector, { preventScroll?, select? })` — focus an element inside this component after
-  the render this reducer caused (non-focusable targets need `tabindex="-1"`).
-- `random(count, toMsg)`, `randomInt(min, max, toMsg)` — randomness as an effect, so reducers
+- `focus(selector, { preventScroll?, select?, wait? })` — focus an element inside this
+  component after the render this reducer caused (non-focusable targets need `tabindex="-1"`).
+  With `wait: true`, a target that appears only in a later render (results after a search) is
+  focused when it appears; a newer `focus()` from the component replaces the request, and it
+  gives up with a warning after one second. `settled()` doesn't wait for it.
+- Randomness is an effect too: a small driver (effects-and-drivers.md "Recipes"), so reducers
   stay deterministic and tests feed fixed numbers.
