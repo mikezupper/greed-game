@@ -10,7 +10,7 @@ pass-and-play on one screen, or in a private online room.
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
 [![Three.js](https://img.shields.io/badge/Three.js-0.186-000000?logo=threedotjs&logoColor=white)](https://threejs.org/)
 [![Rapier](https://img.shields.io/badge/physics-Rapier%200.21-2b6cb0)](https://rapier.rs/)
-[![Gyral](https://img.shields.io/badge/UI-Gyral%200.3.7-0f766e)](https://www.npmjs.com/package/@gyral/core)
+[![Gyral](https://img.shields.io/badge/UI-Gyral%200.3.8-0f766e)](https://www.npmjs.com/package/@gyral/core)
 [![SQLite](https://img.shields.io/badge/storage-SQLite-003B57?logo=sqlite&logoColor=white)](https://nodejs.org/api/sqlite.html)
 [![Tested with Vitest and Playwright](https://img.shields.io/badge/tested%20with-Vitest%20%2B%20Playwright-6E9F18?logo=vitest&logoColor=white)](#testing-and-validation)
 [![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)](Dockerfile)
@@ -91,7 +91,7 @@ rules: 2.3% with six dice, rising to 66.7% with one.
 | Layer | Technology |
 | --- | --- |
 | Language | TypeScript 5.9, strict mode, run directly by Node 24 (type stripping) |
-| UI components | [Gyral](https://www.npmjs.com/package/@gyral/core) 0.3.7: Model-View-Intent custom elements with pure reducers and effects as data |
+| UI components | [Gyral](https://www.npmjs.com/package/@gyral/core) 0.3.8: Model-View-Intent custom elements with pure reducers and effects as data |
 | 3D graphics | Three.js 0.186 (WebGL), lazy-loaded |
 | Physics | Rapier 3D 0.21 (WASM): a browser worker for local play, a Node worker for rooms |
 | Server | Node 24 `http` plus `ws` 8 WebSockets, and Zod 4 validation for every message |
@@ -186,7 +186,7 @@ The full write-up is in [ARCHITECTURE.md](ARCHITECTURE.md). The physics write-up
 ## Getting started
 
 **Prerequisites:** Node.js **24.15 or newer within 24.x** (see `.nvmrc`) and npm. Docker is
-optional. Every dependency installs from the lockfile; Gyral installs at exact 0.3.7 from
+optional. Every dependency installs from the lockfile; Gyral installs at exact 0.3.8 from
 npm, so no sibling checkout is needed.
 
 ```sh
@@ -356,7 +356,7 @@ Greed is released under the [MIT License](LICENSE). Copyright © 2026 Mike Zuppe
 
 Third-party components keep their own licenses:
 
-- [Gyral](https://www.npmjs.com/package/@gyral/core): MIT, installed from npm at 0.3.7; the earlier
+- [Gyral](https://www.npmjs.com/package/@gyral/core): MIT, installed from npm at 0.3.8; the earlier
   [prerelease tarballs](vendor/gyral/0.3.1-next.1/SOURCE.json) are kept for provenance
 - [Three.js](https://threejs.org/): MIT
 - [Rapier](https://rapier.rs/) (`@dimforge/rapier3d-compat`): Apache-2.0

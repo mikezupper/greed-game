@@ -49,14 +49,14 @@
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "0.21.0",
-    "@gyral/core": "0.3.7",
+    "@gyral/core": "0.3.8",
     "three": "0.186.1",
     "ws": "8.22.0",
     "zod": "4.6.7"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
-    "@gyral/testing": "0.3.7",
+    "@gyral/testing": "0.3.8",
     "@types/node": "24.10.1",
     "@types/three": "0.186.0",
     "@types/ws": "8.18.1",
@@ -68,8 +68,5 @@
     "typescript": "5.9.3",
     "vite": "8.3.3",
     "vitest": "4.1.11"
-  },
-  "overrides": {
-    "@gyral/core": "$@gyral/core"
   }
 }

@@ -69,7 +69,8 @@ schema migrations retain the legacy snapshot; native SQLite backups work while s
 ## UI ownership
 
 Gyral watches session snapshots through a subscription driver. Moves and room actions
-are commands. Reducers never call a socket, clock, RNG, worker or browser storage.
+are commands. Both drivers are typed tokens; `provideController` supplies the
+controller's implementations as a driver list. Reducers never call a socket, clock, RNG, worker or browser storage.
 `<dice-tray>` owns the graphics lifecycle and the HTML buttons it positions over each
 choosable die; pointer, keyboard and assistive technology share those buttons. The tray
 never changes game state or decides a score. Bank and Roll moves may carry the selection,
